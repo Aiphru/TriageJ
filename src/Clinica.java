@@ -13,6 +13,13 @@ public class Clinica {
         throw new PazienteNonTrovatoException("Il paziente non esiste");
     }
 
+    public static void verificaEsistenzaCF(String cf) throws PazienteGiaEsistenteException {
+        Paziente p = archivio.get(cf);
+        if (p != null) {
+            throw new PazienteGiaEsistenteException("Il paziente esiste già");
+        }
+    }
+
     public static HashMap<String, Paziente> getArchivio() {
         return archivio;
     }

@@ -28,7 +28,7 @@ public class Main {
         System.out.println("[ERROR] " + message);
     }
 
-    static void registraPaziente(Scanner sc) throws CodiceFiscaleNonValidoException {
+    static void registraPaziente(Scanner sc) throws CodiceFiscaleNonValidoException,PazienteGiaEsistenteException {
         printSection("REGISTRA NUOVO PAZIENTE");
 
         String cf = "";
@@ -36,20 +36,29 @@ public class Main {
 
         do {
             println("CF: ");
-            cf = sc.next();
+            cf = sc.nextLine();
             try {
                 Paziente.validateCodiceFiscale(cf);
+                Clinica.verificaEsistenzaCF(cf);
                 validCF = true;
             } catch (CodiceFiscaleNonValidoException e) {
                 printError("Codice fiscale non valido.");
+            } catch (PazienteGiaEsistenteException e){
+                printError("Paziente già esistente.");
+                println("Vuoi riprovare (Y/N)?");
+                String choice = sc.nextLine();
+                if (choice.toLowerCase().equals("n")){
+                    return;
+                }
+
             }
         } while (!validCF);
 
         println("Nome: ");
-        String nome = sc.next();
+        String nome = sc.nextLine();
 
         println("Cognome: ");
-        String cognome = sc.next();
+        String cognome = sc.nextLine();
 
         String colore = "";
         int scelta;
@@ -259,11 +268,16 @@ public class Main {
 
     static boolean running = true;
     static byte choice = 0;
+    static boolean isFirstStart = true;
 
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
 
         while (running) {
+            if (isFirstStart){
+                caricaArchivio(sc); //Carichiamo l'archivio all'avvio per impedire di inserire pazienti già esistenti.
+            }
+            isFirstStart = false;
             Menu.stampaMenu();
             choice = sc.nextByte();
             sc.nextLine();
