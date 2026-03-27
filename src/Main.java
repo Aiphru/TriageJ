@@ -2,6 +2,8 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
+
+    //Metodi per facilitare scrittura del codice.
     static void println(Object msg) {
         System.out.println(msg);
     }
@@ -27,19 +29,21 @@ public class Main {
     static void printError(String message) {
         System.out.println("[ERROR] " + message);
     }
+    //Fine metodi
+
 
     static void registraPaziente(Scanner sc) throws CodiceFiscaleNonValidoException,PazienteGiaEsistenteException {
-        printSection("REGISTRA NUOVO PAZIENTE");
-
+        printSection("REGISTRA NUOVO PAZIENTE"); //printSection gestisce soltanto la grafica.
+    
         String cf = "";
-        boolean validCF = false;
+        boolean validCF = false;   //CF inizializzato a false finchè non inseriamo un CF valido.
 
         do {
             println("CF: ");
             cf = sc.nextLine();
             try {
-                Paziente.validateCodiceFiscale(cf);
-                Clinica.verificaEsistenzaCF(cf);
+                Paziente.isValidCodiceFiscale(cf); //Metodo di paziente che controlla che il codice fiscale sia valido mediante regex. e.g : RSSMRA90L15F205X 
+                Clinica.verificaEsistenzaCF(cf); //Controlla se il paziente già esiste nell'hashmap e, nel caso, lancia l'eccezzione PazienteGiaEsistente
                 validCF = true;
             } catch (CodiceFiscaleNonValidoException e) {
                 printError("Codice fiscale non valido.");
@@ -64,7 +68,7 @@ public class Main {
         int scelta;
 
         do {
-            Menu.stampaMenuTriage();
+            Menu.stampaMenuTriage();    //Stampa il menu per l'assegnazione del colore triage e mediante switch assegna uno dei 5 valori possibili.
             scelta = sc.nextInt();
 
             switch (scelta) {
@@ -76,7 +80,7 @@ public class Main {
             }
         } while (scelta < 1 || scelta > 5);
 
-        Clinica.registerPatient(cf, new Paziente(cf, nome, cognome, colore));
+        Clinica.registerPatient(cf, new Paziente(cf, nome, cognome, colore)); //Registra il paziente
         printSuccess("Paziente registrato correttamente.");
         printLine();
     }
@@ -87,8 +91,8 @@ public class Main {
         print("Inserisci CF del paziente: ");
         String cfDaCercare = sc.nextLine();
 
-        try {
-            Paziente p = Clinica.cercaPaziente(cfDaCercare);
+        try { //Se non viene sollevata l'eccezione PazienteNonTrovato il paziente esiste e i suoi dati vengono stampati a schermo.
+            Paziente p = Clinica.cercaPaziente(cfDaCercare);    
             printSuccess("Paziente trovato.");
             System.out.println("Name: " + p.getName() + " " + p.getSurname());
             System.out.println("Triage: " + p.getTriageColor());
@@ -112,7 +116,7 @@ public class Main {
         String reparto = sc.nextLine();
 
         VisitaGenerica visita = new VisitaGenerica(priorita, diagnosi, medico, reparto);
-        p.addVisit(visita);
+        p.addVisit(visita); //Aggiunge la visita creata all'arraylist
 
         printSuccess("Visita generica aggiunta correttamente.");
     }
@@ -131,7 +135,7 @@ public class Main {
         String parteCorpo = sc.nextLine();
 
         VisitaOrtopedica visita = new VisitaOrtopedica(priorita, diagnosi, medico, parteCorpo);
-        p.addVisit(visita);
+        p.addVisit(visita); //Aggiunge la visita creata all'arraylist
 
         printSuccess("Visita ortopedica aggiunta correttamente.");
     }
@@ -167,7 +171,7 @@ public class Main {
             pressioneDiast
         );
 
-        p.addVisit(visita);
+        p.addVisit(visita); //Aggiunge la visita creata all'arraylist
         printSuccess("Visita cardiologica aggiunta correttamente.");
     }
 
@@ -181,9 +185,9 @@ public class Main {
             Paziente p = Clinica.cercaPaziente(cfDaCercare);
 
             int scelta;
-            do {
+            do {    //Scegliamo che tipo di visita deve essere aggiunta al paziente.
                 Menu.stampaMenuVisita();
-                scelta = sc.nextInt();
+                scelta = Integer.parseInt((sc.nextLine()));
                 sc.nextLine();
 
                 switch (scelta) {
@@ -223,7 +227,7 @@ public class Main {
 
         Menu.stampaMenuTriage();
         do {
-            scelta = sc.nextInt();
+            scelta = Integer.parseInt((sc.nextLine()));
             sc.nextLine();
 
             switch (scelta) {
@@ -257,31 +261,27 @@ public class Main {
 
     static void caricaArchivio(Scanner sc) {
         printSection("CARICAMENTO ARCHIVIO");
-
+        //Istanziamo un oggetto della classe GestoreArchivio che popola la hashmap con i valori trovati all'interno di pazienti.txt
         GestoreArchivio gestore = new GestoreArchivio();
         HashMap<String, Paziente> archive = gestore.loadArchive();
+        //Aggiorniamo l'archivio 
         Clinica.setArchivio(archive);
 
         printSuccess("Archivio caricato correttamente.");
         printLine();
     }
 
-    static boolean running = true;
-    static byte choice = 0;
-    static boolean isFirstStart = true;
-
     public static void main(String[] args) throws Exception {
+        boolean running = true;
+        byte choice = 0;
         Scanner sc = new Scanner(System.in);
 
+        caricaArchivio(sc); //Carichiamo l'archivio all'avvio per impedire di inserire paziente già esistenti. (Scelta di design)
         while (running) {
-            if (isFirstStart){
-                caricaArchivio(sc); //Carichiamo l'archivio all'avvio per impedire di inserire pazienti già esistenti.
-            }
-            isFirstStart = false;
-            Menu.stampaMenu();
+            Menu.stampaMenu();      
             choice = sc.nextByte();
-            sc.nextLine();
-            switch (choice) {
+            sc.nextLine();  //Puliamo il buffer dello scanner
+            switch (choice) { 
                 case 1 -> registraPaziente(sc);
                 case 2 -> cercaPazientePerCF(sc);
                 case 3 -> aggiungiVisita(sc);
@@ -290,13 +290,11 @@ public class Main {
                 case 6 -> stampaStatistiche(sc);
                 case 7 -> salvaArchivio(sc);
                 case 8 -> caricaArchivio(sc);
-                case 9 -> {
-                    GestoreArchivio gestore = new GestoreArchivio();
-                    gestore.saveArchive(Clinica.getArchivio());
-                    printSuccess("Archivio salvato.");
+                case 9 -> { //Esci.
+                    salvaArchivio(sc);
                     running = false;
                 }
-                default -> printError("Scelta non valida.");
+                default -> printError("Scelta non valida."); //Errore, continua loop
             }
 
         }

@@ -35,15 +35,11 @@ public class Paziente {
         this.visits = new ArrayList<>();
     }
 
-    public static boolean isValidCodiceFiscale(String id) {
-        if (id == null) return false;
-        return Pattern.matches("^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$", id.toUpperCase());
-    }
-
-    public static void validateCodiceFiscale(String id) throws CodiceFiscaleNonValidoException {
-        if (!isValidCodiceFiscale(id)) {
-            throw new CodiceFiscaleNonValidoException("Codice Fiscale non valido: " + id);
+    public static boolean isValidCodiceFiscale(String id) throws CodiceFiscaleNonValidoException {
+        if (id == null) {
+            throw new CodiceFiscaleNonValidoException("Codice fiscale non valido.");
         }
+        return Pattern.matches("^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$", id.toUpperCase());
     }
 
     public String getId() {
