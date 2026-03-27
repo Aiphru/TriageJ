@@ -7,15 +7,15 @@ public class VisitaCardiologica extends Visita {
 
     //constructor
     public VisitaCardiologica(String priorita, String diagnosi, String medico,int frequenzaCardiaca , int pressioneSist, int pressioneDiast){
-        super(LocalDate.now(), priorita, diagnosi, medico);        
+        super(LocalDate.now(), priorita, diagnosi, medico);        // Data impostata automaticamente alla creazione
         this.frequenzaCardiaca = frequenzaCardiaca;
         this.pressioneSist = pressioneSist;
         this.pressioneDiast = pressioneDiast;
     }
 
-    //for loading visits from file with original saved date
-    public VisitaCardiologica(LocalDate date, String priority, String diagnosis, String doctor, int frequenzaCardiaca, int pressioneSist, int pressioneDiast){
-        super(date, priority, diagnosis, doctor);
+    // Usato per ricostruire la visita da file mantenendo la data original
+    public VisitaCardiologica(LocalDate data, String priorita, String diagnosi, String medico, int frequenzaCardiaca, int pressioneSist, int pressioneDiast){
+        super(data, priorita, diagnosi, medico);
         this.frequenzaCardiaca = frequenzaCardiaca;
         this.pressioneSist = pressioneSist;
         this.pressioneDiast = pressioneDiast;

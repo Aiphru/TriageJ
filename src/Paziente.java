@@ -10,7 +10,7 @@ public class Paziente {
     private ArrayList<Visita> visits;
     private LocalDate registrationDate;
     
-    //constructor
+    //Costruttore
     public Paziente(String id, String name, String surname, String coloreTriage) throws CodiceFiscaleNonValidoException {
         if (!isValidCodiceFiscale(id)) {
             throw new CodiceFiscaleNonValidoException("Codice Fiscale non valido: " + id);
@@ -38,7 +38,7 @@ public class Paziente {
     public static boolean isValidCodiceFiscale(String id) throws CodiceFiscaleNonValidoException {
         if (id == null) {
             throw new CodiceFiscaleNonValidoException("Codice fiscale non valido.");
-        }
+        }   //Regex, Controlla se il formato del codice fiscale è valido. 
         return Pattern.matches("^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$", id.toUpperCase());
     }
 
@@ -52,6 +52,57 @@ public class Paziente {
         }
         this.id = id;
     }
+
+    public void addVisit(Visita visita) {
+        visits.add(visita);
+    }
+
+    public String calculatePriority() {
+        if (visits.isEmpty()) {
+            return "NOT VISITED";
+        }
+
+        Visita lastVisit = visits.get(visits.size() - 1);
+        String lastPriority = lastVisit.getPriorita();
+        String lastDiagnosis = lastVisit.getDiagnosi();
+
+        if (lastPriority.equalsIgnoreCase("Rosso") && lastDiagnosis.equalsIgnoreCase("Cardiology")) {
+            return "CODE 1 - EMERGENCY";
+        } else if (lastPriority.equalsIgnoreCase("Rosso")) {
+            return "CODE 2 - URGENT";
+        } else if (lastPriority.equalsIgnoreCase("Azzurro")) {
+            return "CODE 3 - PRIORITY";
+        } else if (lastPriority.equalsIgnoreCase("Verde") || lastPriority.equalsIgnoreCase("Bianco")) {
+            return "CODE 4 - STANDARD";
+        } else {
+            return "UNKNOWN PRIORITY";
+        }
+    }
+
+    public void printCard() {
+        System.out.println("============================================");
+        System.out.println("              RECORD PAZIENTE               ");
+        System.out.println("============================================");
+        System.out.println("Name            : " + name + " " + surname);
+        System.out.println("Codice Fiscale  : " + id);
+        System.out.println("Colore Triage   : " + coloreTriage);
+        System.out.println("Registered      : " + registrationDate);
+        System.out.println("--------------------------------------------");
+        System.out.println("VISITE:");
+
+        if (visits.isEmpty()) {
+            System.out.println("No visits recorded.");
+        } else {
+            for (Visita v : visits) {
+                System.out.println("- " + v.descriviVisita());
+            }
+        }
+
+        System.out.println("--------------------------------------------");
+        System.out.println("Calculated Priority: " + calculatePriority());
+        System.out.println("============================================");
+    }
+
 
     public String getName() {
         return name;
@@ -85,53 +136,5 @@ public class Paziente {
         return visits;
     }
 
-    public void addVisit(Visita visita) {
-        visits.add(visita);
-    }
 
-    public String calculatePriority() {
-        if (visits.isEmpty()) {
-            return "NOT VISITED";
-        }
-
-        Visita lastVisit = visits.get(visits.size() - 1);
-        String lastPriority = lastVisit.getPriorita();
-        String lastDiagnosis = lastVisit.getDiagnosi();
-
-        if (lastPriority.equalsIgnoreCase("Rosso") && lastDiagnosis.equalsIgnoreCase("Cardiology")) {
-            return "CODE 1 - EMERGENCY";
-        } else if (lastPriority.equalsIgnoreCase("Rosso")) {
-            return "CODE 2 - URGENT";
-        } else if (lastPriority.equalsIgnoreCase("Azzurro")) {
-            return "CODE 3 - PRIORITY";
-        } else if (lastPriority.equalsIgnoreCase("Verde") || lastPriority.equalsIgnoreCase("Bianco")) {
-            return "CODE 4 - STANDARD";
-        } else {
-            return "UNKNOWN PRIORITY";
-        }
-    }
-
-    public void printCard() {
-        System.out.println("============================================");
-        System.out.println("               PATIENT RECORD               ");
-        System.out.println("============================================");
-        System.out.println("Name            : " + name + " " + surname);
-        System.out.println("Codice Fiscale  : " + id);
-        System.out.println("Triage Color    : " + coloreTriage);
-        System.out.println("Registered      : " + registrationDate);
-        System.out.println("--------------------------------------------");
-        System.out.println("VISITS:");
-
-        if (visits.isEmpty()) {
-            System.out.println("No visits recorded.");
-        } else {
-            for (Visita v : visits) {
-                System.out.println("- " + v.descriviVisita());
-            }
-        }
-
-        System.out.println("--------------------------------------------");
-        System.out.println("Calculated Priority: " + calculatePriority());
-        System.out.println("============================================");
-    }
 }

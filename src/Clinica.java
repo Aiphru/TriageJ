@@ -7,29 +7,21 @@ public class Clinica {
         archivio.put(cf, paziente);
     }
     
-    public static Paziente cercaPaziente(String cf) throws PazienteNonTrovatoException { 
+    public static Paziente cercaPaziente(String cf) throws PazienteNonTrovatoException {    //Restituisce paziente o lancia eccezzione se inesistente.
         Paziente p = archivio.get(cf);
         if (p != null) return p;
         throw new PazienteNonTrovatoException("Il paziente non esiste");
     }
 
-    public static void verificaEsistenzaCF(String cf) throws PazienteGiaEsistenteException {
+    public static void verificaEsistenzaCF(String cf) throws PazienteGiaEsistenteException {    // Lancia eccezione se il CF è già presente nell'archivio
         Paziente p = archivio.get(cf);
         if (p != null) {
             throw new PazienteGiaEsistenteException("Il paziente esiste già");
         }
     }
 
-    public static HashMap<String, Paziente> getArchivio() {
-        return archivio;
-    }
-
-    public static void setArchivio(HashMap<String, Paziente> nuovoArchivio) {
-        archivio = nuovoArchivio;
-    }
-
     public static void elencaPazientiPerColore(String colore) {
-        boolean trovato = false;
+        boolean trovato = false;    //Serve a capire se almeno un paziente esiste.
 
         for (Paziente p : archivio.values()) {
             if (p.getTriageColor().equalsIgnoreCase(colore)) {
@@ -78,7 +70,7 @@ public class Clinica {
             averageVisits = (double) totalVisits / totalPatients;
         }
         System.out.println("============================================");
-        System.out.println("                STATISTICS                  ");
+        System.out.println("                STATISTICHE                 ");
         System.out.println("============================================");
         System.out.println("Pazienti totali          : " + totalPatients);
         System.out.println("Visite totali            : " + totalVisits);
@@ -90,5 +82,13 @@ public class Clinica {
         System.out.println("Verde                    : " + verde);
         System.out.println("Bianco                   : " + bianco);
         System.out.println("============================================");
+    }
+
+    public static HashMap<String, Paziente> getArchivio() {
+        return archivio;
+    }
+
+    public static void setArchivio(HashMap<String, Paziente> nuovoArchivio) {
+        archivio = nuovoArchivio;
     }
 }

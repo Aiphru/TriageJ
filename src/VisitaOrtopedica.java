@@ -4,14 +4,14 @@ public class VisitaOrtopedica extends Visita{
     private String parteCorpo; 
 
     //constructor
-    public VisitaOrtopedica(String priority, String diagnosis, String doctor, String parteCorpo){
-        super(LocalDate.now(), priority, diagnosis, doctor);
+    public VisitaOrtopedica(String priorita, String diagnosi, String medico, String parteCorpo){
+        super(LocalDate.now(), priorita, diagnosi, medico); // Data impostata automaticamente alla creazione
         this.parteCorpo = parteCorpo;
     }
 
-    //for loading visits from file with original saved date
-    public VisitaOrtopedica(LocalDate date, String priority, String diagnosis, String doctor, String parteCorpo) {
-        super(date, priority, diagnosis, doctor);
+    // Usato per ricostruire la visita da file mantenendo la data original
+    public VisitaOrtopedica(LocalDate data, String priorita, String diagnosi, String medico, String parteCorpo) {
+        super(data, priorita, diagnosi, medico);
         this.parteCorpo = parteCorpo;
     }
 

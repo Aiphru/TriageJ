@@ -8,8 +8,9 @@ import java.util.HashMap;
 import java.time.LocalDate;
 
 public class GestoreArchivio {
+    //Append true,I valori duplicati non vanno a popolare la hashmap.
     public void saveArchive(HashMap<String, Paziente> archive){
-        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("pazienti.txt", true)))) { // duplicate appending, remove ", true" if you just want to overwrite 
+        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("pazienti.txt", true)))) {  
             for (Paziente p : archive.values()){
                 pw.println("### PAZIENTE");
                 pw.println("CF:" + p.getId());
@@ -36,27 +37,23 @@ public class GestoreArchivio {
                         pw.println("PRESSIONE_SIST:" + vc.getPressioneSist());
                         pw.println("PRESSIONE_DIAST:" + vc.getPressioneDiast());
                     }
-
                     pw.println("--- FINE_VISITA");
-
                 }
-
                 pw.println("### FINE_PAZIENTE");
             }
-
-    } catch (IOException e) {
-        e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-    }
 
-    //loading archive from txt and return as hashmap
+    //Carica archivio da pazienti.txt e lo ritorna come hashmap gestita dalla classe clinica
     public HashMap<String, Paziente> loadArchive() {
         HashMap<String, Paziente> archive = new HashMap<>();
         try (BufferedReader br = new BufferedReader(new FileReader("pazienti.txt"))) {
             String line;
             Paziente currentPatient = null;
             while ((line = br.readLine()) != null) {
-                //new patient block start
+                //
                 if (line.equals("### PAZIENTE")) {
                     String cf = br.readLine().substring(3);
                     String nome = br.readLine().substring(5);
