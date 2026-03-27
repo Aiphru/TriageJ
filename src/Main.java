@@ -33,11 +33,9 @@ public class Main {
 
 
     static void registraPaziente(Scanner sc) throws CodiceFiscaleNonValidoException,PazienteGiaEsistenteException {
-        printSection("REGISTRA NUOVO PAZIENTE"); //printSection gestisce soltanto la grafica.
-    
+        printSection("REGISTRA NUOVO PAZIENTE"); 
         String cf = "";
-        boolean validCF = false;   //CF inizializzato a false finchè non inseriamo un CF valido.
-
+        boolean validCF = false;   
         do {
             println("CF: ");
             cf = sc.nextLine();
@@ -51,26 +49,20 @@ public class Main {
                 printError("Paziente già esistente.");
                 println("Vuoi riprovare (Y/N)?");
                 String choice = sc.nextLine();
-                if (choice.toLowerCase().equals("n")){
+                if (choice.equalsIgnoreCase("n")){
                     return;
                 }
-
             }
         } while (!validCF);
-
         println("Nome: ");
         String nome = sc.nextLine();
-
         println("Cognome: ");
         String cognome = sc.nextLine();
-
         String colore = "";
         int scelta;
-
         do {
-            Menu.stampaMenuTriage();    //Stampa il menu per l'assegnazione del colore triage e mediante switch assegna uno dei 5 valori possibili.
-            scelta = sc.nextInt();
-
+            Menu.stampaMenuTriage();    //Selezione colore triage
+            scelta = Integer.parseInt((sc.nextLine()));
             switch (scelta) {
                 case 1 -> colore = "Rosso";
                 case 2 -> colore = "Arancione";
@@ -79,7 +71,6 @@ public class Main {
                 case 5 -> colore = "Bianco";
             }
         } while (scelta < 1 || scelta > 5);
-
         Clinica.registerPatient(cf, new Paziente(cf, nome, cognome, colore)); //Registra il paziente
         printSuccess("Paziente registrato correttamente.");
         printLine();
@@ -151,15 +142,15 @@ public class Main {
         String medico = sc.nextLine();
 
         print("\nFrequenza cardiaca: ");
-        int frequenzaCardiaca = sc.nextInt();
+        int frequenzaCardiaca = Integer.parseInt((sc.nextLine()));
         sc.nextLine();
 
         print("\nPressione sistolica: ");
-        int pressioneSist = sc.nextInt();
+        int pressioneSist = Integer.parseInt((sc.nextLine()));
         sc.nextLine();
 
         print("\nPressione diastolica: ");
-        int pressioneDiast = sc.nextInt();
+        int pressioneDiast = Integer.parseInt((sc.nextLine()));
         sc.nextLine();
 
         VisitaCardiologica visita = new VisitaCardiologica(
@@ -188,7 +179,6 @@ public class Main {
             do {    //Scegliamo che tipo di visita deve essere aggiunta al paziente.
                 Menu.stampaMenuVisita();
                 scelta = Integer.parseInt((sc.nextLine()));
-                sc.nextLine();
 
                 switch (scelta) {
                     case 1 -> aggiungiVisitaGenerica(sc, p);
