@@ -44,13 +44,12 @@ public class Main {
     static void printError(String message) {
         System.out.println("[ERROR] " + message);
     }
-    //Fine metodi
 
     static void invioPerContinuare(Scanner sc){
         print("\nPremi INVIO per continuare...");
         sc.nextLine();
     }
-
+    //Fine metodi
 
     static void registraPaziente(Scanner sc) throws CodiceFiscaleNonValidoException,PazienteGiaEsistenteException {
         printSection("REGISTRA NUOVO PAZIENTE"); 
@@ -60,8 +59,8 @@ public class Main {
             println("CF: ");
             cf = sc.nextLine();
             try {
-                Paziente.isValidCodiceFiscale(cf); //Metodo di paziente che controlla che il codice fiscale sia valido mediante regex. e.g : RSSMRA90L15F205X 
-                Clinica.verificaEsistenzaCF(cf); //Controlla se il paziente già esiste nell'hashmap e, nel caso, lancia l'eccezzione PazienteGiaEsistente
+                Paziente.isValidCodiceFiscale(cf);
+                Clinica.verificaEsistenzaCF(cf); //Controlla se il paziente già esiste nell'hashmap e, nel caso, lancia l'eccezione PazienteGiaEsistente
                 validCF = true;
             } catch (CodiceFiscaleNonValidoException e) {
                 printError("Codice fiscale non valido.");

@@ -38,18 +38,24 @@ public class Paziente {
     public static boolean isValidCodiceFiscale(String id) throws CodiceFiscaleNonValidoException {
         if (id == null ) {
             throw new CodiceFiscaleNonValidoException("Codice fiscale non valido.");
-        }  
-        
+        }  //Controlla se il formato del codice Fiscale è valido
         if (!Pattern.matches("^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$", id.toUpperCase())){
-            return false;
-        }
+            throw new CodiceFiscaleNonValidoException(("Formato codice fiscale non valido"));
+        } //Controlla se l'ultima l'ultima lettera del codice fiscale è valida.
         char expectedLastLetter = calculateLastLetterCF(id);
         char actualLastLetter = id.charAt(id.length()-1);
 
-        return (actualLastLetter == expectedLastLetter);
-        
+        if (actualLastLetter == expectedLastLetter) return true;
+        throw new CodiceFiscaleNonValidoException("CF: Carettere di controllo finale non valido");
     }
-
+    /*
+        calculateLastLetterCF calcola il carattere di controllo del codice Fiscale.
+        1. Divide i primi 15 caratteri e calcola il loro valore utilizzando una tabella predefinita.
+        2. Il valore complessivo viene salvato all'interno di sum
+        3. Calcola il modulo % 26 .  
+        Aggiunge il resto ad 'A' che occupa il posto 65 nella tabella Ascii, quindi con un resto di 3,
+        Avremo il valore 68 che dopo essere castato a char sarà, per esempio, D.
+     */
     public static char calculateLastLetterCF(String cf){
         cf = cf.toUpperCase();
         int sum = 0;
@@ -174,10 +180,10 @@ public class Paziente {
         System.out.println("============================================");
         System.out.println("              RECORD PAZIENTE               ");
         System.out.println("============================================");
-        System.out.println("Name            : " + name + " " + surname);
+        System.out.println("Nome            : " + name + " " + surname);
         System.out.println("Codice Fiscale  : " + id);
         System.out.println("Colore Triage   : " + coloreTriage);
-        System.out.println("Registered      : " + registrationDate);
+        System.out.println("Registrato      : " + registrationDate);
         System.out.println("--------------------------------------------");
         System.out.println("VISITE:");
 
@@ -190,7 +196,7 @@ public class Paziente {
         }
 
         System.out.println("--------------------------------------------");
-        System.out.println("Calculated Priority: " + calculatePriority());
+        System.out.println("Priorità        : " + calculatePriority());
         System.out.println("============================================");
     }
 
