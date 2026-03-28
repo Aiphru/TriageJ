@@ -2,6 +2,21 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
+    /*
+    CFs validi : 
+    
+    RSSMRA80A01H501U
+    MROSSI80A01H501U
+    BNCMRA75E45L219U
+    FRNMRA95T02L219X
+    PLZNCL90L31G273P
+    MRTMTT92B14H501R
+    GIALUI88M20F205A
+    VRDGPP70A01F205V
+    BNCFNC95H41L219A
+    LNTDRA80A01H501E
+
+     */
 
     //Metodi per facilitare scrittura del codice.
     static void println(Object msg) {
@@ -30,6 +45,11 @@ public class Main {
         System.out.println("[ERROR] " + message);
     }
     //Fine metodi
+
+    static void invioPerContinuare(Scanner sc){
+        print("\nPremi INVIO per continuare...");
+        sc.nextLine();
+    }
 
 
     static void registraPaziente(Scanner sc) throws CodiceFiscaleNonValidoException,PazienteGiaEsistenteException {
@@ -61,7 +81,7 @@ public class Main {
         String colore = "";
         int scelta;
         do {
-            Menu.stampaMenuTriage();    //Selezione colore triage
+            Menu.stampaMenuTriage();    //Selezione colore triage  
             scelta = Integer.parseInt((sc.nextLine()));
             switch (scelta) {
                 case 1 -> colore = "Rosso";
@@ -74,6 +94,7 @@ public class Main {
         Clinica.registerPatient(cf, new Paziente(cf, nome, cognome, colore)); //Registra il paziente
         printSuccess("Paziente registrato correttamente.");
         printLine();
+        
     }
 
     static void cercaPazientePerCF(Scanner sc) {
@@ -110,6 +131,7 @@ public class Main {
         p.addVisit(visita); //Aggiunge la visita creata all'arraylist
 
         printSuccess("Visita generica aggiunta correttamente.");
+       
     }
 
     static void aggiungiVistaOrtopedica(Scanner sc, Paziente p) {
@@ -129,6 +151,7 @@ public class Main {
         p.addVisit(visita); //Aggiunge la visita creata all'arraylist
 
         printSuccess("Visita ortopedica aggiunta correttamente.");
+      
     }
 
     static void aggiungiVisitaCardiologica(Scanner sc, Paziente p) {
@@ -164,6 +187,7 @@ public class Main {
 
         p.addVisit(visita); //Aggiunge la visita creata all'arraylist
         printSuccess("Visita cardiologica aggiunta correttamente.");
+        
     }
 
     static void aggiungiVisita(Scanner sc) {
@@ -188,10 +212,12 @@ public class Main {
             } while (scelta < 1 || scelta > 3);
 
             printLine();
+       
 
         } catch (PazienteNonTrovatoException e) {
             printError(e.getMessage());
         }
+        
     }
 
     static void stampaSchedaCompleta(Scanner sc) {
@@ -203,6 +229,7 @@ public class Main {
 
             Paziente p = Clinica.cercaPaziente(cf);
             p.printCard();
+      
 
         } catch (PazienteNonTrovatoException e) {
             printError(e.getMessage());
@@ -218,8 +245,6 @@ public class Main {
         Menu.stampaMenuTriage();
         do {
             scelta = Integer.parseInt((sc.nextLine()));
-            sc.nextLine();
-
             switch (scelta) {
                 case 1 -> colore = "Rosso";
                 case 2 -> colore = "Arancione";
@@ -286,7 +311,7 @@ public class Main {
                 }
                 default -> printError("Scelta non valida."); //Errore, continua loop
             }
-
+            if (running) invioPerContinuare(sc);
         }
         sc.close();
     }

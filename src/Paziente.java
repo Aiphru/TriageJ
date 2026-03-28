@@ -36,10 +36,101 @@ public class Paziente {
     }
 
     public static boolean isValidCodiceFiscale(String id) throws CodiceFiscaleNonValidoException {
-        if (id == null) {
+        if (id == null ) {
             throw new CodiceFiscaleNonValidoException("Codice fiscale non valido.");
-        }   //Regex, Controlla se il formato del codice fiscale è valido. 
-        return Pattern.matches("^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$", id.toUpperCase());
+        }  
+        
+        if (!Pattern.matches("^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$", id.toUpperCase())){
+            return false;
+        }
+        char expectedLastLetter = calculateLastLetterCF(id);
+        char actualLastLetter = id.charAt(id.length()-1);
+
+        return (actualLastLetter == expectedLastLetter);
+        
+    }
+
+    public static char calculateLastLetterCF(String cf){
+        cf = cf.toUpperCase();
+        int sum = 0;
+        for (int i=0;i<cf.length()-1;i++){ //Il calcolo viene fatto sulle prime 15 lettere.
+            if (isOdd(i+1)){ //Il calcolo pari-dispari inizia da 1 non 0
+                sum = sum + getOddValue(cf.charAt(i));
+            } else {
+                sum = sum + getEvenValue(cf.charAt(i));
+            }
+        }
+        int resto = sum % 26;
+        return (char) ('A' + resto);
+    }
+
+    public static boolean isOdd(int n){
+        if (n%2==0) return false;
+        return true;
+    }
+
+    public static int getOddValue(char letter){
+        return switch (letter){
+            case '0', 'A' -> 1;
+            case '1', 'B' -> 0;
+            case '2', 'C' -> 5;
+            case '3', 'D' -> 7;
+            case '4', 'E' -> 9;
+            case '5', 'F' -> 13;
+            case '6', 'G' -> 15;
+            case '7', 'H' -> 17;
+            case '8', 'I' -> 19;
+            case '9', 'J' -> 21;
+            case 'K' -> 2;
+            case 'L' -> 4;
+            case 'M' -> 18;
+            case 'N' -> 20;
+            case 'O' -> 11;
+            case 'P' -> 3;
+            case 'Q' -> 6;
+            case 'R' -> 8;
+            case 'S' -> 12;
+            case 'T' -> 14;
+            case 'U' -> 16;
+            case 'V' -> 10;
+            case 'W' -> 22;
+            case 'X' -> 25;
+            case 'Y' -> 24;
+            case 'Z' -> 23;
+            default -> 0;
+        };
+    }
+
+    public static int getEvenValue(char letter){
+          return switch (letter){
+            case '0', 'A' -> 0;
+            case '1', 'B' -> 1;
+            case '2', 'C' -> 2;
+            case '3', 'D' -> 3;
+            case '4', 'E' -> 4;
+            case '5', 'F' -> 5;
+            case '6', 'G' -> 6;
+            case '7', 'H' -> 7;
+            case '8', 'I' -> 8;
+            case '9', 'J' -> 9;
+            case 'K' -> 10;
+            case 'L' -> 11;
+            case 'M' -> 12;
+            case 'N' -> 13;
+            case 'O' -> 14;
+            case 'P' -> 15;
+            case 'Q' -> 16;
+            case 'R' -> 17;
+            case 'S' -> 18;
+            case 'T' -> 19;
+            case 'U' -> 20;
+            case 'V' -> 21;
+            case 'W' -> 22;
+            case 'X' -> 23;
+            case 'Y' -> 24;
+            case 'Z' -> 25;
+            default -> 0;
+        };
     }
 
     public String getId() {
