@@ -154,12 +154,12 @@ public class Paziente {
         visits.add(visita);
     }
 
-    public String calculatePriority(){
+    public String calculatePriority(String cf){
         if (visits.isEmpty()) {
             return "NOT VISITED";
         }
         try {
-            Paziente p = Clinica.cercaPaziente("BZZNDR03T23L424N");
+            Paziente p = Clinica.cercaPaziente(cf);
             Visita lastVisit = visits.get(visits.size() - 1);
             String lastPriority = p.coloreTriage;
 
@@ -199,7 +199,7 @@ public class Paziente {
         }
 
         System.out.println("--------------------------------------------");
-        System.out.println("Priorità        : " + calculatePriority());
+        System.out.println("Priorità        : " + calculatePriority(id));
         System.out.println("============================================");
     }
 

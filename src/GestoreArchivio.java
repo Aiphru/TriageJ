@@ -22,7 +22,7 @@ public class GestoreArchivio {
                     pw.println("--- VISITA");
                     pw.println("TIPO:" + v.getClass().getSimpleName());
                     pw.println("DATA:" + v.getData());
-                    pw.println("PRIORITY:" + v.getPriorita());
+                    pw.println("PRIORITY:" + p.calculatePriority(p.getId()));
                     pw.println("DIAGNOSIS:" + v.getDiagnosi());
                     pw.println("DOCTOR:" + v.getMedico());
                     if (v instanceof VisitaGenerica) {
