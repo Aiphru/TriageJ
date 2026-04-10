@@ -7,9 +7,8 @@ public abstract class Visita {
     private String priorita;
 
     //constructor 
-    public Visita(LocalDate Data, String priorita, String diagnosi, String medico) {
-        this.Data = Data;
-        this.priorita = priorita;
+    public Visita(LocalDate Data, String diagnosi, String medico) {
+        this.Data = Data;            
         this.diagnosi = diagnosi;
         this.medico = medico;
     }

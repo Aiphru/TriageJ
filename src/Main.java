@@ -117,16 +117,16 @@ public class Main {
         print("\nMedico: ");
         String medico = sc.nextLine();
 
-        print("\nPriorita: ");
-        String priorita = sc.nextLine();
-
         print("\nDiagnosi: ");
         String diagnosi = sc.nextLine();
 
         print("\nReparto: ");
         String reparto = sc.nextLine();
 
-        VisitaGenerica visita = new VisitaGenerica(priorita, diagnosi, medico, reparto);
+        VisitaGenerica visita = new VisitaGenerica(
+            diagnosi,
+            medico,
+            reparto);
         p.addVisit(visita); //Aggiunge la visita creata all'arraylist
 
         printSuccess("Visita generica aggiunta correttamente.");
@@ -134,8 +134,6 @@ public class Main {
     }
 
     static void aggiungiVistaOrtopedica(Scanner sc, Paziente p) {
-        print("\nPriorita: ");
-        String priorita = sc.nextLine();
 
         print("\nDiagnosi: ");
         String diagnosi = sc.nextLine();
@@ -146,7 +144,10 @@ public class Main {
         print("\nParte del corpo: ");
         String parteCorpo = sc.nextLine();
 
-        VisitaOrtopedica visita = new VisitaOrtopedica(priorita, diagnosi, medico, parteCorpo);
+        VisitaOrtopedica visita = new VisitaOrtopedica(
+            diagnosi,
+            medico,
+            parteCorpo);
         p.addVisit(visita); //Aggiunge la visita creata all'arraylist
 
         printSuccess("Visita ortopedica aggiunta correttamente.");
@@ -154,8 +155,6 @@ public class Main {
     }
 
     static void aggiungiVisitaCardiologica(Scanner sc, Paziente p) {
-        print("\nPriorita: ");
-        String priorita = sc.nextLine();
 
         print("\nDiagnosi: ");
         String diagnosi = sc.nextLine();
@@ -173,7 +172,6 @@ public class Main {
         int pressioneDiast = Integer.parseInt((sc.nextLine()));
 
         VisitaCardiologica visita = new VisitaCardiologica(
-            priorita,
             diagnosi,
             medico,
             frequenzaCardiaca,

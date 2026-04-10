@@ -154,25 +154,28 @@ public class Paziente {
         visits.add(visita);
     }
 
-    public String calculatePriority() {
+    public String calculatePriority(){
         if (visits.isEmpty()) {
             return "NOT VISITED";
         }
+        try {
+            Paziente p = Clinica.cercaPaziente("BZZNDR03T23L424N");
+            Visita lastVisit = visits.get(visits.size() - 1);
+            String lastPriority = p.coloreTriage;
 
-        Visita lastVisit = visits.get(visits.size() - 1);
-        String lastPriority = lastVisit.getPriorita();
-        String lastDiagnosis = lastVisit.getDiagnosi();
-
-        if (lastPriority.equalsIgnoreCase("Rosso") && lastDiagnosis.equalsIgnoreCase("Cardiology")) {
-            return "CODE 1 - EMERGENCY";
-        } else if (lastPriority.equalsIgnoreCase("Rosso")) {
-            return "CODE 2 - URGENT";
-        } else if (lastPriority.equalsIgnoreCase("Azzurro")) {
-            return "CODE 3 - PRIORITY";
-        } else if (lastPriority.equalsIgnoreCase("Verde") || lastPriority.equalsIgnoreCase("Bianco")) {
-            return "CODE 4 - STANDARD";
-        } else {
-            return "UNKNOWN PRIORITY";
+            if (lastPriority.equalsIgnoreCase("Rosso") && lastVisit instanceof VisitaCardiologica) {
+                return "CODE 1 - EMERGENCY";
+            } else if (lastPriority.equalsIgnoreCase("Rosso")) {
+                return "CODE 2 - URGENT";
+            } else if (lastPriority.equalsIgnoreCase("Azzurro")) {
+                return "CODE 3 - PRIORITY";
+            } else if (lastPriority.equalsIgnoreCase("Verde") || lastPriority.equalsIgnoreCase("Bianco")) {
+                return "CODE 4 - STANDARD";
+            } else {
+                return "UNKNOWN PRIORITY";
+            }   
+        } catch (PazienteNonTrovatoException e){
+            return "Paziente non trovato";
         }
     }
 
