@@ -29,4 +29,9 @@ public class VisitaGenerica extends Visita {
                 ", Reparto: " + reparto;
     }
 
+    @Override
+    public String getPriorita() {
+        return super.getPriorita();
+    }
+
 }

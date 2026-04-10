@@ -164,13 +164,13 @@ public class Paziente {
             String lastPriority = p.coloreTriage;
 
             if (lastPriority.equalsIgnoreCase("Rosso") && lastVisit instanceof VisitaCardiologica) {
-                return "CODE 1 - EMERGENCY";
+                return "CODE 1 - EMERGENZA";
             } else if (lastPriority.equalsIgnoreCase("Rosso")) {
-                return "CODE 2 - URGENT";
-            } else if (lastPriority.equalsIgnoreCase("Azzurro")) {
-                return "CODE 3 - PRIORITY";
+                return "CODE 2 - URGENTE";
+            } else if (lastPriority.equalsIgnoreCase("Arancione")) {
+                return "CODE 3 - PRIORITARIO'";
             } else if (lastPriority.equalsIgnoreCase("Verde") || lastPriority.equalsIgnoreCase("Bianco")) {
-                return "CODE 4 - STANDARD";
+                return "CODE 4 - NORMALE";
             } else {
                 return "UNKNOWN PRIORITY";
             }   
