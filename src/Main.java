@@ -165,15 +165,12 @@ public class Main {
 
         print("\nFrequenza cardiaca: ");
         int frequenzaCardiaca = Integer.parseInt((sc.nextLine()));
-        sc.nextLine();
 
         print("\nPressione sistolica: ");
         int pressioneSist = Integer.parseInt((sc.nextLine()));
-        sc.nextLine();
 
         print("\nPressione diastolica: ");
         int pressioneDiast = Integer.parseInt((sc.nextLine()));
-        sc.nextLine();
 
         VisitaCardiologica visita = new VisitaCardiologica(
             priorita,
