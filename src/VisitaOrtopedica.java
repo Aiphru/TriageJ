@@ -2,7 +2,7 @@ import java.time.LocalDate;
 
 public class VisitaOrtopedica extends Visita{
     private String parteCorpo; 
-    private String priorita;
+  
     
     //constructor
     public VisitaOrtopedica(String diagnosi, String medico, String parteCorpo){

@@ -63,7 +63,7 @@ public class Main {
                 Clinica.verificaEsistenzaCF(cf); //Controlla se il paziente già esiste nell'hashmap e, nel caso, lancia l'eccezione PazienteGiaEsistente
                 validCF = true;
             } catch (CodiceFiscaleNonValidoException e) {
-                printError("Codice fiscale non valido.");
+                e.getMessage();
             } catch (PazienteGiaEsistenteException e){
                 printError("Paziente già esistente.");
                 println("Vuoi riprovare (Y/N)?");
